@@ -69,6 +69,23 @@ d3.csv("assets/data/data.csv").then(function(healthData){
         .attr("r", "12")
         .attr("class", "stateCircle");
 
+    let toolTip = d3.tip()
+        .attr("class", "stateText")
+        .offset([80, -60])
+        .html(d => d.abbr);
+
+    // 9. Create tooltip in the chart
+    chartGroup.call(toolTip);
+
+    // 10. Create event listeners to display and hide the tooltip
+    circlesGroup.on("click", function(data) {
+        toolTip.show(data, this);
+      })
+
+    /*circlesGroup.append("text")
+        .attr("class", "stateText")
+        .text(d => d.abbr);*/
+
     // 9. Create axes labels
 
     chartGroup.append("text")

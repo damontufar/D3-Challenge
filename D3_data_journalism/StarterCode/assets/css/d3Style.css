@@ -26,9 +26,8 @@
 /* font size dependent on radius, see app.js */
 .stateText {
   font-family: sans-serif;
-  fill: black;
+  color: rgb(8, 8, 8);
   text-anchor: middle;
-  position: absolute;
 }
 
 .stateCircle {

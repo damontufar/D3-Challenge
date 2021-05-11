@@ -78,9 +78,30 @@ d3.csv("assets/data/data.csv").then(function(healthData) {
         .attr("y", d => yLinearScale(d.healthcare))
         .text(d => d.abbr)
         .attr("class", "stateText");
-    
 
-    // 10. Create axes labels
+    // 10. Tool tip
+
+    let toolTip = d3.tip()
+        .attr("class", "d3-tip")
+        .offset([80, -60])
+        .html(d => `${d.state}<br>Poverty: ${d.poverty}<br> Lacks Healthcare: ${d.healthcare}`);
+    
+    // Create tool tip in the chart
+
+    chartGroup.call(toolTip);
+
+    // Create event listeners to display and hide the tooltip
+
+    circlesGroup.on("mouseover", function(data) {
+        toolTip.show(data, this);
+    })
+
+    // onmouseout event
+        .on("mouseout", function(data, index) {
+            toolTip.hide(data);
+        });
+
+    // 11. Create axes labels
 
     chartGroup.append("text")
         .attr("transform", "rotate(-90)")

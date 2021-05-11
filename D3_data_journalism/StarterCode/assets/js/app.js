@@ -1,6 +1,6 @@
 // 1. Setup the chart
 
-let svgWidth = 960;
+let svgWidth = 825;
 let svgHeight = 500;
 
 let margin = {
@@ -30,18 +30,18 @@ d3.csv("assets/data/data.csv").then(function(healthData){
     //4. Parse Data
     healthData.forEach(function(data){
         data.state_abbr = +data.abbr;
-        data.healtcare = +data.healtcare;
+        data.healthcare = +data.healthcare;
         data.poverty = +data.poverty;
     });
 
     // 5. Scales
 
     let xLinearScale = d3.scaleLinear()
-        .domain([0, d3.max(healthData, d => d.poverty)])
+        .domain([8, d3.max(healthData, d => d.poverty)])
         .range([0, width]);
 
     let yLinearScale = d3.scaleLinear()
-    .domain([0, d3.max(healthData, d => d.healtcare)])
+    .domain([0, d3.max(healthData, d => d.healthcare)])
     .range([height, 0]);
 
     // 6. Axes
@@ -65,7 +65,7 @@ d3.csv("assets/data/data.csv").then(function(healthData){
         .enter()
         .append("circle")
         .attr("cx", d => xLinearScale(d.poverty))
-        .attr("cy", d => yLinearScale(d.healtcare))
+        .attr("cy", d => yLinearScale(d.healthcare))
         .attr("r", "15")
         .attr("fill", "lightblue")
         .attr("opacity", ".8");

@@ -68,15 +68,17 @@ d3.csv("assets/data/data.csv").then(function(healthData) {
         .attr("r", "12")
         .attr("class", "stateCircle");
 
+
     // 9. Add States Text
-    let circlesText = chartGroup.selectAll("text")
+    let circlesText = chartGroup.selectAll("text.stateText")
         .data(healthData)
         .enter()
         .append("text")
         .attr("x", d => xLinearScale(d.poverty))
         .attr("y", d => yLinearScale(d.healthcare))
-        .attr("class", "stateText")
-        .text(d => d.abbr);
+        .text(d => d.abbr)
+        .attr("class", "stateText");
+    
 
     // 10. Create axes labels
 

@@ -66,20 +66,23 @@ d3.csv("assets/data/data.csv").then(function(healthData){
         .append("circle")
         .attr("cx", d => xLinearScale(d.poverty))
         .attr("cy", d => yLinearScale(d.healthcare))
-        .attr("r", "15")
-        .attr("fill", "lightblue")
-        .attr("opacity", ".8");
+        .attr("r", "12")
+        .attr("class", "stateCircle");
 
-    // 9. Tooltip
+    // 9. Create axes labels
 
-    let toolTip = d3.tip()
-        .attr("class", "toolTip")
-        .offset([80, -60])
-        .html(function(d) {
-            return (d.abbr);
-        });
+    chartGroup.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - margin.left)
+        .attr("x", 0 - height/1.35)
+        .attr("dy", "1em")
+        .attr("class", "axisText")
+        .text("Lacks Healthcare (%)");
 
-    // 10. Create tooltip in the chart
-
-    chartGroup.call(toolTip);
+    chartGroup.append("text")
+        .attr("transform", `translate(${width / 2.35}, ${height + margin.top + 30})`)
+        .attr("class", "axisText")
+        .text("In Poverty (%)");
+}).catch(function(error){
+    console.log(error);
 });

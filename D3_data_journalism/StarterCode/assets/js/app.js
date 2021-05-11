@@ -26,10 +26,9 @@ let chartGroup = svg.append("g")
 
 // 3. Import Data from data.csv
 
-d3.csv("assets/data/data.csv").then(function(healthData){
+d3.csv("assets/data/data.csv").then(function(healthData) {
     //4. Parse Data
     healthData.forEach(data => {
-        data.state_abbr = +data.abbr;
         data.healthcare = +data.healthcare;
         data.poverty = +data.poverty;
     });
@@ -69,21 +68,17 @@ d3.csv("assets/data/data.csv").then(function(healthData){
         .attr("r", "12")
         .attr("class", "stateCircle");
 
-
-    let toolTip = d3.tip()
+    // 9. Add States Text
+    let circlesText = chartGroup.selectAll("text")
+        .data(healthData)
+        .enter()
+        .append("text")
+        .attr("x", d => xLinearScale(d.poverty))
+        .attr("y", d => yLinearScale(d.healthcare))
         .attr("class", "stateText")
-        .offset([80, -60])
-        .html(d => d.abbr);
+        .text(d => d.abbr);
 
-    // 9. Create tooltip in the chart
-    chartGroup.call(toolTip);
-
-    // 10. Create event listeners to display and hide the tooltip
-    circlesGroup.on("click", function(data) {
-        toolTip.show(data, this);
-    })
-
-    // 11. Create axes labels
+    // 10. Create axes labels
 
     chartGroup.append("text")
         .attr("transform", "rotate(-90)")

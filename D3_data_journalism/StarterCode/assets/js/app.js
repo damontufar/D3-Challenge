@@ -60,6 +60,15 @@ function renderCircles(circlesGroup, newXScale, chosenXAxis) {
     return circlesGroup;
 }
 
+
+// Function used for updating text circles group with a transition to new text circles
+function renderCircText(circlesText, newXScale, chosenXAxis) {
+    circlesText.transition()
+        .duration(1000)
+        .attr("x", d => newXScale(d[chosenXAxis]));
+
+    return circlesText;
+}
 //Function used for updating circles group with new tooltip
 function updateToolTip(chosenXAxis, circlesGroup) {
     
@@ -172,15 +181,16 @@ d3.csv("assets/data/data.csv").then(function(healthData) {
         .classed("aText", true)
         .text("Lacks Healthcare (%)");
 
-    //Add States Text
+    //Append initial States Text
     let circlesText = chartGroup.selectAll("text.stateText")
         .data(healthData)
         .enter()
         .append("text")
-        .attr("x", d => xLinearScale(d.poverty))
+        .attr("x", d => xLinearScale(d[chosenXAxis]))
         .attr("y", d => yLinearScale(d.healthcare))
         .text(d => d.abbr)
         .attr("class", "stateText");
+
 
     // Update tooltip function above csv import
 
@@ -207,6 +217,10 @@ d3.csv("assets/data/data.csv").then(function(healthData) {
 
             // updates circles with new x values
             circlesGroup = renderCircles(circlesGroup, xLinearScale, chosenXAxis);
+
+            // updates circles text with new x values
+
+            circlesText = renderCircText(circlesText, xLinearScale, chosenXAxis);
 
             // updates tooltips with new info
             circlesGroup = updateToolTip(chosenXAxis, circlesGroup);

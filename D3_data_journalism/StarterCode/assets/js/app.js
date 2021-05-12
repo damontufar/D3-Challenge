@@ -124,7 +124,7 @@ d3.csv("assets/data/data.csv").then(function(healthData) {
 
     // Append the axes to the ChartGroup
 
-    chartGroup.append("g")
+    let xAxis = chartGroup.append("g")
         .classed("x-axis", true)
         .attr("transform", `translate(0, ${height})`)
         .call(bottomAxis);
@@ -172,8 +172,60 @@ d3.csv("assets/data/data.csv").then(function(healthData) {
         .classed("aText", true)
         .text("Lacks Healthcare (%)");
 
+    // Update tooltip function above csv import
 
-    // 9. Add States Text
+    circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
+
+      // x axis labels event listener
+    labelGroup.selectAll("text")
+        .on("click", function() {
+            // get value of selection
+            let value = d3.select(this).attr("value");
+            if (value !== chosenXAxis) {
+
+            // replaces chosenXAxis with value
+            chosenXAxis = value;
+
+            console.log(chosenXAxis)
+
+            // functions here found above csv import
+            // updates x scale for new data
+            xLinearScale = xScale(healthData, chosenXAxis);
+
+            // updates x axis with transition
+            xAxis = renderAxes(xLinearScale, xAxis);
+
+            // updates circles with new x values
+            circlesGroup = renderCircles(circlesGroup, xLinearScale, chosenXAxis);
+
+            // updates tooltips with new info
+            circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
+
+            // changes classes to change bold text
+            if (chosenXAxis === "age") {
+                ageLabel
+                .classed("active", true)
+                .classed("inactive", false);
+                povertyLabel
+                .classed("active", false)
+                .classed("inactive", true);
+            }
+            else {
+                ageLabel
+                .classed("active", false)
+                .classed("inactive", true);
+                povertyLabel
+                .classed("active", true)
+                .classed("inactive", false);
+            }
+            }
+        });
+}).catch(function(error) {
+    console.log(error);
+    });
+
+
+    /*// 9. Add States Text
     let circlesText = chartGroup.selectAll("text.stateText")
         .data(healthData)
         .enter()
@@ -181,7 +233,7 @@ d3.csv("assets/data/data.csv").then(function(healthData) {
         .attr("x", d => xLinearScale(d.poverty))
         .attr("y", d => yLinearScale(d.healthcare))
         .text(d => d.abbr)
-        .attr("class", "stateText");
+        .attr("class", "stateText");*/
 
     
 

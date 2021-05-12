@@ -145,12 +145,31 @@ d3.csv("assets/data/data.csv").then(function(healthData) {
     
     // Create group for two-axis labels
 
+    let labelGroup = chartGroup.append("g")
+        .attr("transform", `translate(${width / 2}, ${height + 20})`);
+
+    let povertyLabel = labelGroup.append("text")
+        .attr("x", 0)
+        .attr("y", 20)
+        .attr("value", "poverty")
+        .classed("active", true)
+        .text("Poverty (%)");
+
+    let ageLabel = labelGroup.append("text")
+    .attr("x", 0)
+    .attr("y", 40)
+    .attr("value", "age")
+    .classed("inactive", true)
+    .text("Age (Median)");
+
+    //Append y axis
+
     chartGroup.append("text")
         .attr("transform", "rotate(-90)")
         .attr("y", 0 - margin.left)
-        .attr("x", 0 - height/1.35)
+        .attr("x", 0 - (height / 2))
         .attr("dy", "1em")
-        .attr("class", "axisText")
+        .classed("aText", true)
         .text("Lacks Healthcare (%)");
 
 
@@ -166,14 +185,3 @@ d3.csv("assets/data/data.csv").then(function(healthData) {
 
     
 
-    // 11. Create axes labels
-
-    
-
-    chartGroup.append("text")
-        .attr("transform", `translate(${width / 2.35}, ${height + margin.top + 30})`)
-        .attr("class", "axisText")
-        .text("In Poverty (%)");
-}).catch(function(error){
-    console.log(error);
-});

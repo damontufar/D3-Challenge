@@ -172,6 +172,16 @@ d3.csv("assets/data/data.csv").then(function(healthData) {
         .classed("aText", true)
         .text("Lacks Healthcare (%)");
 
+    //Add States Text
+    let circlesText = chartGroup.selectAll("text.stateText")
+        .data(healthData)
+        .enter()
+        .append("text")
+        .attr("x", d => xLinearScale(d.poverty))
+        .attr("y", d => yLinearScale(d.healthcare))
+        .text(d => d.abbr)
+        .attr("class", "stateText");
+
     // Update tooltip function above csv import
 
     circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
@@ -225,15 +235,7 @@ d3.csv("assets/data/data.csv").then(function(healthData) {
     });
 
 
-    /*// 9. Add States Text
-    let circlesText = chartGroup.selectAll("text.stateText")
-        .data(healthData)
-        .enter()
-        .append("text")
-        .attr("x", d => xLinearScale(d.poverty))
-        .attr("y", d => yLinearScale(d.healthcare))
-        .text(d => d.abbr)
-        .attr("class", "stateText");*/
+
 
     
 
